@@ -125,6 +125,9 @@ function report_shop_com_shipping_order($order_id) {
     if (empty($shop_com[2])) {
         return;
     }
+    if(get_post_meta($order_id, 'shop_com_order_issued', true)) {
+        return;
+    }
 	$Order_Amount = 0;
 
     $order = wc_get_order($order_id);
@@ -203,6 +206,7 @@ function report_shop_com_shipping_order($order_id) {
     }
 
     curl_close($handle);
+    update_post_meta($order_id, 'shop_com_order_issued', 1);
 
 }
 
